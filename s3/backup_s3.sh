@@ -25,3 +25,16 @@ if [ $? -ne 0 ]; then
     echo "Error al comprimir archivos." | tee -a "$LOG_FILE"
     exit 1
 fi
+
+echo "Subiendo respaldo a S3..." | tee -a "$LOG_FILE"
+aws s3 cp "$ARCHIVO" "s3://$BUCKET/"
+
+if [ $? -ne 0 ]; then
+    echo "Error al subir archivo a S3." | tee -a "$LOG_FILE"
+    exit 1
+fi
+
+echo "Respaldo subido correctamente: $ARCHIVO" | tee -a "$LOG_FILE"
+
+rm -f "$ARCHIVO"
+echo "Archivo temporal eliminado." | tee -a "$LOG_FILE"
