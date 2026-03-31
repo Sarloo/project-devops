@@ -21,6 +21,7 @@ def listar_instancias():
             state = instance.get("State", {}).get("Name", "N/A")
             instance_type = instance.get("InstanceType", "N/A")
             print(f"ID: {instance_id} | Estado: {state} | Tipo: {instance_type}")
+
 def iniciar_instancia(instance_id):
     ec2 = boto3.client("ec2")
     ec2.start_instances(InstanceIds=[instance_id])
@@ -36,7 +37,7 @@ def terminar_instancia(instance_id):
     ec2.terminate_instances(InstanceIds=[instance_id])
     print(f"Instancia {instance_id} terminada correctamente.")
 
-    def main():
+def main():
     if len(sys.argv) < 2:
         mostrar_uso()
         sys.exit(1)
