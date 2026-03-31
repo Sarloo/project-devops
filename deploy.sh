@@ -23,3 +23,13 @@ if [ ${PIPESTATUS[0]} -ne 0 ]; then
     echo "Error al ejecutar script EC2." | tee -a "$LOG_FILE"
     exit 1
 fi
+
+echo "Ejecutando respaldo y subida a S3..." | tee -a "$LOG_FILE"
+bash s3/backup_s3.sh "$DIRECTORIO" "$BUCKET" | tee -a "$LOG_FILE"
+
+if [ ${PIPESTATUS[0]} -ne 0 ]; then
+    echo "Error al ejecutar backup S3." | tee -a "$LOG_FILE"
+    exit 1
+fi
+
+echo "Deploy ejecutado correctamente." | tee -a "$LOG_FILE"
